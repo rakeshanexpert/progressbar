@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Progress Bar</title>
+	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	<style type="text/css">
+		.progressSection{  background: #eee; height:30px; width: 500px; margin-top: 10px; padding:5px 0}
+		.innerProgressDiv{ background: #c00; height: 30px; width: 0px; color: #fff; text-align:  center; line-height: 30px; }
+		.autoFillSection{ float:  left; height: 30px; width:500px; padding: 5px 0; }
+		#autoFill{background: #159308; height: 30px; width: 0px;}
+		#autoFillBtn,#inputField{ display:  block; margin-top: 5px; }
+	</style>
+	<script type="text/javascript">
+		$(function(){
+			//Select value to fill progress bar
+
+			$("#clickBtn").click(function(){
+				myProssFunction($("#selectOption").val());
+			});
+
+			function myProssFunction(currentCount){
+				$(".innerProgressDiv").animate({
+					'width':(500*currentCount)/100
+				},{
+					duration:1000,
+					step:function(){
+						$(".innerProgressDiv").text(currentCount + '%')
+					}
+				})
+			}
+
+			//Input Field Focus Out Fill Progress Bar
+
+			// $("#inputField").focusout(function(){
+			// 	var width = 0;
+			// 	var brogressDiv = document.getElementById("autoFill");
+			// 	var loopInterval = setInterval(movProgressBar,50);
+
+			// 	function movProgressBar(){
+			// 		if(width==100){
+			// 			clearInterval(loopInterval);
+			// 		}else{
+			// 			width++;
+			// 			brogressDiv.style.width = width + '%';
+			// 		}
+			// 	}
+			// })
+
+			//Click Submit Button
+
+			$("#sumitForm").click(function(event){
+				 event.preventDefault();
+				$(this).prop('disabled', true);
+				var saveInputValue = $("#inputField").val();
+				console.log(saveInputValue);
+				var form = document.getElementById("myForm");
+				form.reset();
+				
+				var width = 0;
+				var brogressDiv = document.getElementById("autoFill");
+				var loopInterval = setInterval(movProgressBar,50);
+
+				function movProgressBar(){
+					if(width==100){
+						clearInterval(loopInterval);
+						$("#autoFill").fadeOut();
+					}else{
+						width++;
+						brogressDiv.style.width = width + '%';
+						
+					}
+
+				}
+
+			})
+
+
+		})
+
+		//Click Btn To fill Progress Bar
+
+		function autoClickFun(){
+			var width = 0;
+			var loopInterval = setInterval(movProgressBar,50);
+			var brogressDiv = document.getElementById("autoFill");
+
+			function movProgressBar(){
+				if(width==100){
+					clearInterval(loopInterval);
+				}else{
+					width++;
+					brogressDiv.style.width = width + '%';
+				}
+			}
+		}
+
+		
+
+	</script>
+</head>
+<body>
+	<select id="selectOption">
+		<option>10</option>
+		<option>20</option>
+		<option>30</option>
+		<option>40</option>
+		<option>50</option>
+		<option>60</option>
+		<option>70</option>
+		<option>80</option>
+		<option>90</option>
+		<option>100</option>
+	</select>
+	<button id="clickBtn">click</button>
+	<div class="progressSection">
+		<div class="innerProgressDiv"></div>
+	</div>
+	<hr>
+	<button id="autoFillBtn" onclick="autoClickFun();">Click Btn</button>
+	<form id="myForm">
+		<input type="text" name="" id="inputField" />
+		<input type="submit" name="" value="submit" id="sumitForm">
+	</form>
+	<div class="autoFillSection">
+		<div id="autoFill"></div>
+	</div>
+</body>
+</html>
